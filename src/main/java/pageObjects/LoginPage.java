@@ -28,6 +28,15 @@ public class LoginPage {
     @FindBy(xpath = "//a[contains(@href,'restorePassword')]")
     WebElement forgotPassword;
 
+    @FindBy(name = "//label[@for='login[email]']")
+    WebElement emailFieldError;
+
+    @FindBy(name="//label[@for='login[password]']")
+    WebElement passwordFieldError;
+
+    @FindBy(id="userAlertContainer")
+    WebElement emailPasswordWrongError;
+
     public LoginPage(WebDriver driver){
         PageFactory.initElements(driver, this);
     }
