@@ -15,11 +15,11 @@ public class LoggerUtil {
     public static synchronized void startTestCase(String testCaseName) {
         testCaseName = testCaseName.replaceAll("[^a-zA-Z0-9]", "_").replaceAll("_+", "_");
         startLog(System.getProperty("user.dir")+"/src/test/resources/logs/", testCaseName);
-        info("\n***************** Execution Started : " + testCaseName + "*****************");
+        info("\n***** Execution Started For : " + testCaseName + "*****");
     }
 
     public static void endTestCase(String testCaseName){
-        info("\n***************** Execution Ended : " + testCaseName + "*****************");
+        info("\n***** Execution Ended For : " + testCaseName + "*****");
     }
 
     private static void startLog(String fileDirPath, String testCaseName) {
@@ -53,11 +53,11 @@ public class LoggerUtil {
     }
 
     public static void trace(Object message) {
-        getCurrentLog().trace(message);
+        getCurrentLog().trace(getCallerInfo() + message);
     }
 
     public static void trace(Object message, Throwable throwable) {
-        getCurrentLog().trace(message, throwable);
+        getCurrentLog().trace(getCallerInfo() + message, throwable);
     }
 
     public static void debug(Object message) {
