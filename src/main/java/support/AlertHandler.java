@@ -1,28 +1,22 @@
 package support;
 
-import org.apache.log4j.Logger;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
-import com.jtaf.qa.utilities.LoggerUtility;
 
-/**
- * 
- * @author Jaga
- *
- */
-public class AlertHelper extends LoggerUtility {
 
-	Logger log = getLogger(AlertHelper.class);
+public class AlertHandler {
+	
 	private WebDriver driver;
 
-	public AlertHelper(WebDriver driver) {
+	public AlertHandler(WebDriver driver) {
 		this.driver = driver;
 	}
 
 	public Alert getAlert() {
 		try {
-			log.info("Switch to alert popup is succesful");
+			System.out.println("Switch to alert popup is succesful");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -32,7 +26,7 @@ public class AlertHelper extends LoggerUtility {
 	public void acceptAlert() {
 		try {
 			getAlert().accept();
-			log.info("Alert popup accept is succesful");
+			System.out.println("Alert popup accept is succesful");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -41,7 +35,7 @@ public class AlertHelper extends LoggerUtility {
 	public void dismissAlert() {
 		try {
 			getAlert().dismiss();
-			log.info("Alert popup dismiss is succesful");
+			System.out.println("Alert popup dismiss is succesful");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -51,7 +45,7 @@ public class AlertHelper extends LoggerUtility {
 		String text = null;
 		try {
 			text = getAlert().getText();
-			log.info("Alert popup text is : " + text);
+			System.out.println("Alert popup text is : " + text);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -62,21 +56,21 @@ public class AlertHelper extends LoggerUtility {
 	public boolean isAlertPresent() {
 		try {
 			driver.switchTo().alert();
-			log.info("Alert popup is present : " + true);
-			return true;
-		} catch (NoAlertPresentException ex) {
-			log.info("Alert popup is not present : " + false);
+			System.out.println("Alert popup is present : " + true);
 			return false;
+		} catch (NoAlertPresentException ex) {
+			System.out.println("Alert popup is not present : " + false);
+			return true;
 		}
 
 	}
 
 	public void acceptAlertIfPresent() {
 		try {
-			if (!isAlertPresent()) {
+			if (isAlertPresent()) {
 				return;
 			}
-			log.info("Alert present - alert popup accept is succesful");
+			System.out.println("Alert present - alert popup accept is succesful");
 			getAlertText();
 			acceptAlert();
 		} catch (Exception ex) {
@@ -86,10 +80,10 @@ public class AlertHelper extends LoggerUtility {
 
 	public void dismissAlertIfPresent() {
 		try {
-			if (!isAlertPresent()) {
+			if (isAlertPresent()) {
 				return;
 			}
-			log.info("Alert present - alert popup dismiss is succesful");
+			System.out.println("Alert present - alert popup dismiss is succesful");
 			dismissAlert();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -98,13 +92,13 @@ public class AlertHelper extends LoggerUtility {
 
 	public void acceptPrompt(String text) {
 		try {
-			if (!isAlertPresent()) {
+			if (isAlertPresent()) {
 				return;
 			}
 			Alert alert = getAlert();
 			alert.sendKeys(text);
 			alert.accept();
-			log.info("Alert present - alert prompt popup accept is succesful");
+			System.out.println("Alert present - alert prompt popup accept is succesful");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

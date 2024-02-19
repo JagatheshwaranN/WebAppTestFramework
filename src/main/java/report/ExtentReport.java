@@ -3,12 +3,12 @@ package report;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
-import utils.FileReaderUtil;
+import utils.FileReader;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ExtentReportUtil {
+public class ExtentReport {
 
     static ExtentReports extentReports;
 
@@ -26,8 +26,8 @@ public class ExtentReportUtil {
         extentSparkReporter.config().setReportName("QDPM Test Automation");
         extentReports.setSystemInfo("Operating System", System.getProperty("os.name"));
         extentReports.setSystemInfo("User Name", System.getProperty("user.name"));
-        extentReports.setSystemInfo("Test Browser", FileReaderUtil.getDataFromPropFile("browser"));
-        extentReports.setSystemInfo("Test App URL", FileReaderUtil.getDataFromPropFile("appURL"));
+        extentReports.setSystemInfo("Test Browser", FileReader.getDataFromPropFile("browser"));
+        extentReports.setSystemInfo("Test App URL", FileReader.getDataFromPropFile("appURL"));
         return extentReports;
     }
 

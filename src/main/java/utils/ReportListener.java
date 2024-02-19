@@ -18,12 +18,12 @@ import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.Reporter;
-import report.ExtentReportUtil;
+import report.ExtentReport;
 import testbase.DriverFactory;
 import testbase.ExtentFactory;
 
 
-public class ReportListenerUtil implements ITestListener {
+public class ReportListener implements ITestListener {
 
     static ExtentReports extentReports;
     ExtentTest extentTest;
@@ -44,7 +44,7 @@ public class ReportListenerUtil implements ITestListener {
     public void onStart(ITestContext context) {
         try {
             Reporter.log("The " + context.getName() + " Execution started");
-            extentReports = ExtentReportUtil.setupExtentReport();
+            extentReports = ExtentReport.setupExtentReport();
         } catch (Exception ex) {
             System.out.println("Exception occurred while start of the TEST" + "\n" + ex);
             Assert.fail();

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.Properties;
 
-public class FileReaderUtil {
+public class FileReader {
 
     static Properties properties = new Properties();
 
