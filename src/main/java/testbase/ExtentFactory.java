@@ -17,11 +17,11 @@ public class ExtentFactory {
     // Factory design pattern - Define separate factory methods for creating objects and calling the methods.
     ThreadLocal<ExtentTest> extentTestThreadLocal = new ThreadLocal<>();
 
-    public ExtentTest getDriverThreadLocal() {
+    public ExtentTest getExtentTestThreadLocal() {
         return extentTestThreadLocal.get();
     }
 
-    public void setDriverThreadLocal(ExtentTest extentTest) {
+    public void setExtentTestThreadLocal(ExtentTest extentTest) {
         extentTestThreadLocal.set(extentTest);
     }
 

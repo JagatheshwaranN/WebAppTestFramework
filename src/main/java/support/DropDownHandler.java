@@ -3,66 +3,80 @@ package support;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.aventstack.extentreports.Status;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import testbase.ExtentFactory;
+
 public class DropDownHandler {
-	
+
+	private Select initializeSelect(WebElement element) {
+		return new Select(element);
+	}
+
 	public void selectByValue(WebElement element, String value) {
 		try {
-			Select select = new Select(element);
+			Select select = initializeSelect(element);
 			select.selectByValue(value);
-			System.out.println("The value " + value + " is selected");
+			ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "The option with value " + value + " is selected from the dropdown.");
 		} catch (Exception ex) {
+			ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to select the option from the dropdown. Exception: "+ex);
 			ex.printStackTrace();
 		}
 	}
 
 	public void selectByIndex(WebElement element, int index) {
 		try {
-			Select select = new Select(element);
+			Select select = initializeSelect(element);
 			select.selectByIndex(index);
-			System.out.println("The value at index " + index + " is selected");
+			ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "The option with index " + index + " is selected from the dropdown.");
 		} catch (Exception ex) {
+			ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to select the option from the dropdown. Exception: "+ex);
 			ex.printStackTrace();
 		}
 	}
 
 	public void selectByVisibleText(WebElement element, String visibleText) {
 		try {
-			Select select = new Select(element);
+			Select select = initializeSelect(element);
 			select.selectByVisibleText(visibleText);
-			System.out.println("The visible text " + visibleText + " is selected");
+			ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "The option with visible text " + visibleText + " is selected from the dropdown.");
 		} catch (Exception ex) {
+			ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to select the option from the dropdown. Exception: "+ex);
 			ex.printStackTrace();
 		}
 	}
 
-	public String getSelectValue(WebElement element) {
+	public String getSelectedValue(WebElement element) {
 		String value = null;
 		try {
-			value = new Select(element).getFirstSelectedOption().getText();
-			System.out.println("The selected value text is : " + value);
+			Select select = initializeSelect(element);
+			value = select.getFirstSelectedOption().getText();
+			ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS,"The selected option from the dropdown is: " + value);
 		} catch (Exception ex) {
+			ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to get the selected option from the dropdown. Exception: "+ex);
 			ex.printStackTrace();
 		}
 		return value;
 	}
 
 	public List<String> getAllDropDownValue(WebElement element) {
-		List<String> dropdownvalues = null;
+		List<String> dropdownValues = null;
 		try {
-			Select select = new Select(element);
-			List<WebElement> listelements = select.getOptions();
-			dropdownvalues = new LinkedList<String>();
-			for (WebElement elements : listelements) {
-				System.out.println("The element values of the dropdown are : " + elements.getText());
-				dropdownvalues.add(elements.getText());
+			Select select = initializeSelect(element);
+			List<WebElement> listElements = select.getOptions();
+			dropdownValues = new LinkedList<>();
+			for (WebElement elements : listElements) {
+				dropdownValues.add(elements.getText());
 			}
+			ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS,"The dropdown options are: " + dropdownValues);
 		} catch (Exception ex) {
+			ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to get the dropdown options. Exception: "+ex);
 			ex.printStackTrace();
 		}
-		return dropdownvalues;
+		return dropdownValues;
 	}
 
 }
+

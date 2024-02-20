@@ -1,130 +1,146 @@
 package support;
 
+import com.aventstack.extentreports.Status;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import testbase.ExtentFactory;
 
 public class JavaScriptHandler {
-	
-	private WebDriver driver;
 
-	public JavaScriptHandler(WebDriver driver) {
-		this.driver = driver;
-	}
+    private WebDriver driver;
 
-	public Object executeScript(String script) {
-		try {
-			System.out.println("Script : " + script);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		JavascriptExecutor executor = (JavascriptExecutor) driver;
-		return executor.executeAsyncScript(script);
+    public JavaScriptHandler(WebDriver driver) {
+        this.driver = driver;
+    }
 
-	}
+    private JavascriptExecutor getExecutor() {
+        return (JavascriptExecutor) driver;
+    }
 
-	public Object executeScript(String script, Object... arguments) {
-		try {
-			System.out.println("Script : " + script);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		JavascriptExecutor executor = (JavascriptExecutor) driver;
-		return executor.executeAsyncScript(script, arguments);
-	}
+    public Object executeScript(String script) {
+        try {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Executed script is: " + script);
+            return getExecutor().executeAsyncScript(script);
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Unable to execute the script. Exception:" + ex);
+            ex.printStackTrace();
+            return null;
+        }
+    }
 
-	public void elementClick(WebElement element) {
-		try {
-			JavascriptExecutor executor = (JavascriptExecutor) driver;
-			executor.executeScript("arguments[0].click();", element);
-			System.out.println("Element click using JS executor is successful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public Object executeScript(String script, Object... arguments) {
+        try {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Executed script is: " + script);
+            return getExecutor().executeAsyncScript(script, arguments);
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Unable to execute the script. Exception:" + ex);
+            ex.printStackTrace();
+            return null;
+        }
+    }
 
-	public void scrollToElement(WebElement element) {
-		try {
-			executeScript("window.scrollTo(arguments[0],arguments[1])", element.getLocation().x,
-					element.getLocation().y);
-			System.out.println("Scroll to element is successful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public void elementClick(WebElement element) {
+        try {
+            getExecutor().executeScript("arguments[0].click();", element);
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Element click by JS executor is successful.");
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to click the element by JS executor. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
-	public void scrollToElementAndClick(WebElement element) {
-		try {
-			scrollToElement(element);
-			element.click();
-			System.out.println("Scroll to element and click is successful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public void scrollToElement(WebElement element) {
+        try {
+            executeScript("window.scrollTo(arguments[0],arguments[1])", element.getLocation().x,
+                    element.getLocation().y);
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Scroll to the element by JS executor is successful.");
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to scroll to the element by JS executor. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
-	public void scrollIntoView(WebElement element) {
-		try {
-			executeScript("arguments[0].scrollIntoView()", element);
-			System.out.println("Scroll to view is successful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public void scrollToElementAndClick(WebElement element) {
+        try {
+            scrollToElement(element);
+            element.click();
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Scroll to element and click by JS executor is successful.");
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to scroll to the element and click by JS executor. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
-	public void scrollIntoViewAndClick(WebElement element) {
-		try {
-			scrollIntoView(element);
-			element.click();
-			System.out.println("Scroll to view and click is successful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public void scrollIntoView(WebElement element) {
+        try {
+            executeScript("arguments[0].scrollIntoView()", element);
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Scroll to view by JS executor is successful.");
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to scroll to view by JS executor. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
-	public void scrollUpVertical() {
-		try {
-			executeScript("window.scrollTo(0, -document.body.scrollHeight)");
-			System.out.println("Scroll up vertical is successful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public void scrollIntoViewAndClick(WebElement element) {
+        try {
+            scrollIntoView(element);
+            element.click();
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Scroll to view and click by JS executor is successful.");
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to scroll to view and click by JS executor. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
-	public void scrollDownVertical() {
-		try {
-			executeScript("window.scrollTo(0, document.body.scrollHeight)");
-			System.out.println("Scroll down vertical is successful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public void scrollUpVertical() {
+        try {
+            executeScript("window.scrollTo(0, -document.body.scrollHeight)");
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Scroll to the top of the page by JS executor is successful.");
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to scroll to the top of the page by JS executor. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
-	public void ScrolUpByPixel(String pixel) {
-		try {
-			executeScript("window.scrollBy(0, -'" + pixel + "')");
-			System.out.println("Scroll up by pixel is successful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public void scrollDownVertical() {
+        try {
+            executeScript("window.scrollTo(0, document.body.scrollHeight)");
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Scroll to the bottom of the page by JS executor is successful.");
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to scroll to the bottom of the page by JS executor. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
-	public void ScrolDownByPixel(String pixel) {
-		try {
-			executeScript("window.scrollBy(0, '" + pixel + "')");
-			System.out.println("Scroll down by pixel is successful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public void scrollUpByPixel(String pixel) {
+        try {
+            executeScript("window.scrollBy(0, -'" + pixel + "')");
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Scroll the page up with pixel by JS executor is successful.");
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to scroll the page up with pixel by JS executor. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
-	public void zoomInByPercentage(String percent) {
-		try {
-			executeScript("document.body.style.zoom='" + percent + "'");
-			System.out.println("Zoom in by percent is successful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public void scrollDownByPixel(String pixel) {
+        try {
+            executeScript("window.scrollBy(0, '" + pixel + "')");
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Scroll the page down with pixel by JS executor is successful.");
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to scroll the down up with pixel by JS executor. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
+
+    public void zoomInByPercentage(String percent) {
+        try {
+            executeScript("document.body.style.zoom='" + percent + "'");
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Zoom in the page by JS executor is successful.");
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to zoom in the page by JS executor. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
 }

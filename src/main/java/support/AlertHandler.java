@@ -1,107 +1,121 @@
 package support;
 
 
+import com.aventstack.extentreports.Status;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
+import testbase.ExtentFactory;
 
 
 public class AlertHandler {
-	
-	private WebDriver driver;
 
-	public AlertHandler(WebDriver driver) {
-		this.driver = driver;
-	}
+    private WebDriver driver;
 
-	public Alert getAlert() {
-		try {
-			System.out.println("Switch to alert popup is succesful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return driver.switchTo().alert();
-	}
+    public AlertHandler(WebDriver driver) {
+        this.driver = driver;
+    }
 
-	public void acceptAlert() {
-		try {
-			getAlert().accept();
-			System.out.println("Alert popup accept is succesful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public Alert getAlert() {
+        try {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Switch to the alert popup is successful.");
+            return driver.switchTo().alert();
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to switch to the alert popup. Exception " + ex);
+            ex.printStackTrace();
+            return null;
+        }
+    }
 
-	public void dismissAlert() {
-		try {
-			getAlert().dismiss();
-			System.out.println("Alert popup dismiss is succesful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public void acceptAlert() {
+        try {
+            getAlert().accept();
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Alert popup accept is successful.");
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to accept the alert popup. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
-	public String getAlertText() {
-		String text = null;
-		try {
-			text = getAlert().getText();
-			System.out.println("Alert popup text is : " + text);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return text;
+    public void dismissAlert() {
+        try {
+            getAlert().accept();
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Alert popup dismiss is successful.");
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to dismiss the alert popup. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
-	}
+    public String getAlertText() {
+        String text = null;
+        try {
+            Alert alert = getAlert();
+            if (alert != null) {
+                text = alert.getText();
+                ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Alert popup content is: " + text);
+            }
+        } catch (NoAlertPresentException noAlertEx) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Alert popup is NOT present. Exception: " + noAlertEx);
+            noAlertEx.printStackTrace();
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to retrieve the content of the alert popup. Exception: " + ex);
+            ex.printStackTrace();
+        }
+        return text;
+    }
 
-	public boolean isAlertPresent() {
-		try {
-			driver.switchTo().alert();
-			System.out.println("Alert popup is present : " + true);
-			return false;
-		} catch (NoAlertPresentException ex) {
-			System.out.println("Alert popup is not present : " + false);
-			return true;
-		}
+    public boolean isAlertPresent() {
+        try {
+            driver.switchTo().alert();
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Alert popup is present.");
+            return true;
+        } catch (NoAlertPresentException ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Alert popup is NOT present. Exception: " + ex);
+            return false;
+        }
+    }
 
-	}
+    public void acceptAlertIfPresent() {
+        try {
+            if (!isAlertPresent()) {
+                ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Alert popup is not present.");
+                return;
+            }
+            acceptAlert();
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to check presence of the alert popup. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
-	public void acceptAlertIfPresent() {
-		try {
-			if (isAlertPresent()) {
-				return;
-			}
-			System.out.println("Alert present - alert popup accept is succesful");
-			getAlertText();
-			acceptAlert();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public void dismissAlertIfPresent() {
+        try {
+            if (!isAlertPresent()) {
+                ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Alert popup is not present.");
+                return;
+            }
+            dismissAlert();
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to check presence of the alert popup. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
-	public void dismissAlertIfPresent() {
-		try {
-			if (isAlertPresent()) {
-				return;
-			}
-			System.out.println("Alert present - alert popup dismiss is succesful");
-			dismissAlert();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	public void acceptPrompt(String text) {
-		try {
-			if (isAlertPresent()) {
-				return;
-			}
-			Alert alert = getAlert();
-			alert.sendKeys(text);
-			alert.accept();
-			System.out.println("Alert present - alert prompt popup accept is succesful");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public void acceptPrompt(String text) {
+        try {
+            if (!isAlertPresent()) {
+                ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Alert popup is not present.");
+                return;
+            }
+            Alert alert = getAlert();
+            alert.sendKeys(text);
+            alert.accept();
+			ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS,"Alert is present - alert prompt popup accept is successful.");
+        } catch (Exception ex) {
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to accept the prompt alert popup. Exception: " + ex);
+            ex.printStackTrace();
+        }
+    }
 
 }

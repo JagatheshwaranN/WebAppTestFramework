@@ -56,7 +56,7 @@ public class ReportListener implements ITestListener {
         try {
             Reporter.log("The " + testResult.getMethod().getMethodName() + " Test Started");
             extentTest = extentReports.createTest(testResult.getMethod().getMethodName());
-            ExtentFactory.getInstance().setDriverThreadLocal(extentTest);
+            ExtentFactory.getInstance().setExtentTestThreadLocal(extentTest);
         } catch (Exception ex) {
             System.out.println("Exception occurred while test start" + "\n" + ex);
             Assert.fail();
@@ -77,10 +77,10 @@ public class ReportListener implements ITestListener {
                 Reporter.log("<a target='_blank' href='" + screenToAttach + "'><img src= '" + screenToAttach
                         + "' height='100' width='100' /></a>");
                 System.out.println("The test failure screenshot is captured to attach in report and testNG report");
-                ExtentFactory.getInstance().getDriverThreadLocal().log(Status.FAIL,"The " + result.getMethod().getMethodName() + " Test Failed..!!" + "\n"
+                ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL,"The " + result.getMethod().getMethodName() + " Test Failed..!!" + "\n"
                         + result.getThrowable());
                 //ExtentFactory.getInstance().getDriverThreadLocal().log(Status.FAIL, result.getThrowable());
-                ExtentFactory.getInstance().getDriverThreadLocal().addScreenCaptureFromPath(screenToAttach);
+                ExtentFactory.getInstance().getExtentTestThreadLocal().addScreenCaptureFromPath(screenToAttach);
                 ExtentFactory.getInstance().closeExtentTest();
             }
         } catch (Exception ex) {
@@ -102,8 +102,8 @@ public class ReportListener implements ITestListener {
                 Reporter.log("<a target='_blank' href='" + screenToAttach + "'><img src= '" + screenToAttach
                         + "' height='100' width='100' /></a>");
                 System.out.println("The test success screenshot is captured to attach in report and testNG report");
-                ExtentFactory.getInstance().getDriverThreadLocal().log(Status.PASS, "The " + result.getMethod().getMethodName() + " Test Passed..!!");
-                ExtentFactory.getInstance().getDriverThreadLocal().addScreenCaptureFromPath(screenToAttach);
+                ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "The " + result.getMethod().getMethodName() + " Test Passed..!!");
+                ExtentFactory.getInstance().getExtentTestThreadLocal().addScreenCaptureFromPath(screenToAttach);
                 ExtentFactory.getInstance().closeExtentTest();
             }
         } catch (Exception ex) {
@@ -116,7 +116,7 @@ public class ReportListener implements ITestListener {
     public void onTestSkipped(ITestResult result) {
         try {
             Reporter.log("The " + result.getMethod().getMethodName() + " Test Skipped" + "\n" + result.getThrowable());
-            ExtentFactory.getInstance().getDriverThreadLocal().log(Status.SKIP, "The " + result.getMethod().getMethodName() + " Test Skipped..!!");
+            ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.SKIP, "The " + result.getMethod().getMethodName() + " Test Skipped..!!");
             ExtentFactory.getInstance().closeExtentTest();
         } catch (Exception ex) {
             System.out.println("Exception occurred while test skip of the test" + "\n" + ex);
