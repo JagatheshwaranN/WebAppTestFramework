@@ -10,7 +10,7 @@ public class TestBase {
     @BeforeMethod
     public void setUp(){
         BrowserFactory browserFactory = new BrowserFactory();
-        FileReader.loadPropertyFile();
+        //FileReader.loadPropertyFile();
         String browser = FileReader.getDataFromPropFile("browser");
         String appURL = FileReader.getDataFromPropFile("appURL");
         WebDriver driverInstance = browserFactory.createBrowserInstance(browser);
