@@ -5,21 +5,16 @@ import com.aventstack.extentreports.Status;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
+import testbase.DriverFactory;
 import testbase.ExtentFactory;
 
 
 public class AlertHandler {
 
-    private WebDriver driver;
-
-    public AlertHandler(WebDriver driver) {
-        this.driver = driver;
-    }
-
     public Alert getAlert() {
         try {
             ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Switch to the alert popup is successful.");
-            return driver.switchTo().alert();
+            return DriverFactory.getInstance().getDriverThreadLocal().switchTo().alert();
         } catch (Exception ex) {
             ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to switch to the alert popup. Exception " + ex);
             ex.printStackTrace();
@@ -67,7 +62,7 @@ public class AlertHandler {
 
     public boolean isAlertPresent() {
         try {
-            driver.switchTo().alert();
+            DriverFactory.getInstance().getDriverThreadLocal().switchTo().alert();
             ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Alert popup is present.");
             return true;
         } catch (NoAlertPresentException ex) {

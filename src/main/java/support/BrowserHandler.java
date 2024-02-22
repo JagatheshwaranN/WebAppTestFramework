@@ -2,19 +2,14 @@ package support;
 
 import com.aventstack.extentreports.Status;
 import org.openqa.selenium.WebDriver;
+import testbase.DriverFactory;
 import testbase.ExtentFactory;
 
 public class BrowserHandler {
-
-    private WebDriver driver;
-
-    public BrowserHandler(WebDriver driver) {
-        this.driver = driver;
-    }
-
+    
     public void goBack() {
         try {
-            driver.navigate().back();
+            DriverFactory.getInstance().getDriverThreadLocal().navigate().back();
             ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Browser navigated back to the previous page.");
         } catch (Exception ex) {
             ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to navigate the browser back to the previous page.");
@@ -24,7 +19,7 @@ public class BrowserHandler {
 
     public void goForward() {
         try {
-            driver.navigate().forward();
+            DriverFactory.getInstance().getDriverThreadLocal().navigate().forward();
             ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Browser navigated to the front page.");
         } catch (Exception ex) {
             ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Unable to navigate the browser to the front page.");
@@ -34,7 +29,7 @@ public class BrowserHandler {
 
     public void refresh() {
         try {
-            driver.navigate().refresh();
+            DriverFactory.getInstance().getDriverThreadLocal().navigate().refresh();
             ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Browser refreshed the current page.");
         } catch (Exception ex) {
             ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Browser unable to refresh the current page.");
@@ -45,7 +40,7 @@ public class BrowserHandler {
     public String getCurrentPageUrl() {
         String url = null;
         try {
-            url = driver.getCurrentUrl();
+            url = DriverFactory.getInstance().getDriverThreadLocal().getCurrentUrl();
             ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS,"Browser current page URL is: " + url);
         } catch (Exception ex) {
             ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL,"Unable to get the browser current page URL. Exception: "+ex);

@@ -11,14 +11,6 @@ public class FileReader {
 
     static Properties properties = new Properties();
 
-    private static void loadPropertyFile(){
-        try(FileInputStream fileInputStream = new FileInputStream(System.getProperty("user.dir")+"/src/main/resources/configuration.properties")){
-            properties.load(fileInputStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static String getDataFromPropFile(String key){
         loadPropertyFile();
         String data = null;
@@ -34,6 +26,14 @@ public class FileReader {
         return data;
     }
 
+    private static void loadPropertyFile(){
+        try(FileInputStream fileInputStream = new FileInputStream(System.getProperty("user.dir")+"/src/main/resources/configuration.properties")){
+            properties.load(fileInputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     public static void main(String[] args) {
         FileReader.loadPropertyFile();
         String data = FileReader.getDataFromPropFile("browser");

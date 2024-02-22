@@ -10,7 +10,7 @@ import support.VerificationHandler;
 import testbase.DriverFactory;
 import testbase.TestBase;
 
-public class LoginPage extends TestBase {
+public class LoginPage {
 
     By LoginForm = By.id("loginForm");
     By Email = By.name("login[email]");
@@ -47,17 +47,20 @@ public class LoginPage extends TestBase {
     @FindBy(id="userAlertContainer")
     WebElement emailPasswordWrongError;
 
-//    public LoginPage(WebDriver driver){
-//        PageFactory.initElements(driver, this);
-//    }
+    VerificationHandler verificationHandler;
+    ReusableComponent reusableComponent;
+
 
     public void doLogin(String email, String password) {
-        VerificationHandler verificationHandler = new VerificationHandler();
-        ReusableComponent reusableComponent = new ReusableComponent(DriverFactory.getInstance().getDriverThreadLocal());
         verificationHandler.verifyElementPresent(reusableComponent.generateElement(LoginForm));
         reusableComponent.typeElement(reusableComponent.generateElement(Email), email, "Email");
         reusableComponent.typeElement(reusableComponent.generateElement(Password), password, "Password");
         reusableComponent.clickElement(reusableComponent.generateElement(Login), "Login");
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

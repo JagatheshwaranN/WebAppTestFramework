@@ -8,7 +8,7 @@ import testbase.ExtentFactory;
 
 public class ReusableComponent {
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public ReusableComponent(WebDriver driver) {
         this.driver = driver;

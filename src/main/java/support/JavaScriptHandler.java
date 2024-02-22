@@ -4,18 +4,14 @@ import com.aventstack.extentreports.Status;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import testbase.DriverFactory;
 import testbase.ExtentFactory;
 
 public class JavaScriptHandler {
 
-    private WebDriver driver;
-
-    public JavaScriptHandler(WebDriver driver) {
-        this.driver = driver;
-    }
 
     private JavascriptExecutor getExecutor() {
-        return (JavascriptExecutor) driver;
+        return (JavascriptExecutor) DriverFactory.getInstance().getDriverThreadLocal();
     }
 
     public Object executeScript(String script) {
