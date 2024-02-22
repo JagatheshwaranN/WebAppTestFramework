@@ -1,13 +1,12 @@
 package support;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.aventstack.extentreports.Status;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
 import testbase.ExtentFactory;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class DropDownHandler {
 

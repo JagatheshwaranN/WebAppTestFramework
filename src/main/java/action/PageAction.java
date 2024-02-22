@@ -2,17 +2,21 @@ package action;
 
 import com.aventstack.extentreports.Status;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import support.*;
+import testbase.DriverFactory;
 import testbase.ExtentFactory;
 
-public class ReusableComponent {
+public class PageAction {
 
-    private final WebDriver driver;
-
-    public ReusableComponent(WebDriver driver) {
-        this.driver = driver;
-    }
+    protected AlertHandler alertHandler = new AlertHandler();
+    protected BrowserHandler browserHandler = new BrowserHandler();
+    protected DropDownHandler dropDownHandler = new DropDownHandler();
+    protected FrameHandler frameHandler = new FrameHandler();
+    protected JavaScriptHandler javaScriptHandler = new JavaScriptHandler();
+    protected MouseHandler mouseHandler = new MouseHandler();
+    protected VerificationHandler verificationHandler = new VerificationHandler();
+    protected WindowHandler windowHandler = new WindowHandler();
 
     public static void waitForSomeTime() {
         try {
@@ -59,10 +63,10 @@ public class ReusableComponent {
     }
 
     public WebElement generateElement(String locator, String locatorLabel) {
-        return driver.findElement(By.xpath(locator));
+        return DriverFactory.getInstance().getDriverThreadLocal().findElement(By.xpath(locator));
     }
 
     public WebElement generateElement(By locator) {
-        return driver.findElement(locator);
+        return DriverFactory.getInstance().getDriverThreadLocal().findElement(locator);
     }
 }

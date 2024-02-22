@@ -1,7 +1,6 @@
 package support;
 
 import com.aventstack.extentreports.Status;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import testbase.DriverFactory;

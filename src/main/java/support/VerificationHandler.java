@@ -7,16 +7,14 @@ import testbase.ExtentFactory;
 
 public class VerificationHandler {
 
-    public boolean verifyElementPresent(WebElement element) {
-        boolean elementPresent = false;
+    public void verifyElementPresent(WebElement element) {
         try {
-            elementPresent = isDisplayed(element);
+            isPresent(element);
             ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Element is present on the page.");
         } catch (Exception ex) {
             ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.PASS, "Element is not present on the page. Exception: " + ex);
             ex.printStackTrace();
         }
-        return elementPresent;
     }
 
     public boolean verifyTextEquals(WebElement element, String text) {
@@ -39,7 +37,7 @@ public class VerificationHandler {
 	public String readTextValueFromElement(WebElement element) {
 		String text = null;
 		try {
-			if (!isDisplayed(element)) {
+			if (!isPresent(element)) {
 				ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL,"Element is not displayed.");
 				return null;
 			}
@@ -55,7 +53,7 @@ public class VerificationHandler {
     public String readValueFromInput(WebElement element) {
         String value = null;
         try {
-            if (!isDisplayed(element)) {
+            if (!isPresent(element)) {
 				ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "Element is not displayed.");
 				return null;
 			}
@@ -68,7 +66,7 @@ public class VerificationHandler {
         return value;
     }
 
-    private boolean isDisplayed(WebElement element) {
+    private boolean isPresent(WebElement element) {
         return element.isDisplayed();
     }
 

@@ -1,11 +1,12 @@
 package testbase;
 
+import action.PageAction;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import utils.FileReader;
 
-public class TestBase {
+public class TestBase extends PageAction {
 
 
     @BeforeMethod
