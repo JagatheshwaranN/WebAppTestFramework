@@ -7,12 +7,17 @@ import pageObjects.LoginPage;
 import pageObjects.taskspage.TasksPage;
 import testbase.TestBase;
 import utils.CustomLogger;
+import utils.DataBaseReader;
+import utils.FileReader;
+
+import java.util.HashMap;
 
 public class TestCaseDemo extends TestBase {
 
     LoginPage loginPage = new LoginPage();
     DashboardPage dashboardPage = new DashboardPage();
     TasksPage tasksPage = new TasksPage();
+    DataBaseReader dataBaseReader = new DataBaseReader();
 
     @Test
     public void testCase1() throws InterruptedException {
@@ -26,6 +31,8 @@ public class TestCaseDemo extends TestBase {
         Thread.sleep(2000);
         dashboardPage.clickOnSideMenuBarSubMenu("Tasks","Add Task");
         tasksPage.performAddTask();
+        HashMap<String, String> dataFromDB = dataBaseReader.getDBResultAsMap(FileReader.getDataFromPropFile("query"));
+        Assert.assertEquals(dataFromDB.get("name"), "Project Documents");
         Thread.sleep(10000);
     }
 
