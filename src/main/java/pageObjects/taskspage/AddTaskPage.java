@@ -1,5 +1,7 @@
 package pageObjects.taskspage;
 
+import java.util.HashMap;
+
 public class AddTaskPage {
 
     public AddTaskGeneralSection addTaskGeneralSection = new AddTaskGeneralSection();
@@ -7,17 +9,17 @@ public class AddTaskPage {
     public AddTaskAttachmentsSection addTaskAttachmentsSection = new AddTaskAttachmentsSection();
 
 
-    public void addTask(){
+    public void addTask(HashMap<String, String> testData){
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        addTaskGeneralSection.doFillGeneralSectionDetails();
+        addTaskGeneralSection.doFillGeneralSectionDetails(testData);
         addTaskGeneralSection.navigateToTimeSection();
-        addTaskTimeSection.doFillTimeSectionDetails();
+        addTaskTimeSection.doFillTimeSectionDetails(testData);
         addTaskTimeSection.navigateToAttachmentSection();
-        addTaskAttachmentsSection.doFillAttachmentSectionDetails();
+        addTaskAttachmentsSection.doFillAttachmentSectionDetails(testData);
         addTaskAttachmentsSection.saveTask();
     }
 

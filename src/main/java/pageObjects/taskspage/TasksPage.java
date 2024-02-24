@@ -2,6 +2,8 @@ package pageObjects.taskspage;
 
 import testbase.TestBase;
 
+import java.util.HashMap;
+
 public class TasksPage extends TestBase {
 
     public AddTaskPage addTaskPage = new AddTaskPage();
@@ -9,8 +11,8 @@ public class TasksPage extends TestBase {
 //    private ViewAllPage viewAllPage;
 
 
-    public void performAddTask() {
-        addTaskPage.addTask();
+    public void performAddTask(HashMap<String, String> testData) {
+        addTaskPage.addTask(testData);
     }
 
 }

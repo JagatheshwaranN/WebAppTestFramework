@@ -1,4 +1,4 @@
-package utils;
+package listener;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
@@ -23,7 +23,7 @@ import testbase.DriverFactory;
 import testbase.ExtentFactory;
 
 
-public class ReportListener implements ITestListener {
+public class Report implements ITestListener {
 
     static ExtentReports extentReports;
     ExtentTest extentTest;

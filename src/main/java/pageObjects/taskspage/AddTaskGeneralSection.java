@@ -3,6 +3,8 @@ package pageObjects.taskspage;
 import org.openqa.selenium.By;
 import testbase.TestBase;
 
+import java.util.HashMap;
+
 public class AddTaskGeneralSection extends TestBase {
 
     public By project = By.id("form_projects_id");
@@ -20,18 +22,18 @@ public class AddTaskGeneralSection extends TestBase {
 
     public By timeSection = By.xpath("//a[@href='#tab_time']");
 
-    public void doFillGeneralSectionDetails() {
-        dropDownHandler.selectByVisibleText(generateElement(project), "OrangeHRM");
-        dropDownHandler.selectByValue(generateElement(generalType), "2");
-        typeElement(generateElement(generalName),"Project Documents", "generalName");
-        dropDownHandler.selectByVisibleText(generateElement(generalStatus), "Waiting Assessment");
-        dropDownHandler.selectByValue(generateElement(generalPriority), "3");
-        dropDownHandler.selectByValue(generateElement(generalLabel), "3");
+    public void doFillGeneralSectionDetails(HashMap<String, String> testData) {
+        dropDownHandler.selectByVisibleText(generateElement(project), testData.get("TaskProject"));
+        dropDownHandler.selectByVisibleText(generateElement(generalType), testData.get("TaskType"));
+        typeElement(generateElement(generalName),testData.get("TaskName"), "generalName");
+        dropDownHandler.selectByVisibleText(generateElement(generalStatus), testData.get("TaskStatus"));
+        dropDownHandler.selectByVisibleText(generateElement(generalPriority), testData.get("TaskPriority"));
+        dropDownHandler.selectByVisibleText(generateElement(generalLabel), testData.get("TaskLabel"));
         clickElement(generateElement(generalAssignedTo), "generalAssignedTo");
         frameHandler.switchToFrame(generateElement(generalDescriptionFrame), "generalDescriptionFrame");
-        typeElement(generateElement(generalDescription),"Idea", "generalDescription");
+        typeElement(generateElement(generalDescription),testData.get("TaskDescription"), "generalDescription");
         frameHandler.leaveFrame();
-        dropDownHandler.selectByVisibleText(generateElement(generalCreatedBy), "John");
+        dropDownHandler.selectByVisibleText(generateElement(generalCreatedBy), testData.get("TaskCreatedBy"));
     }
 
     public void navigateToTimeSection() {

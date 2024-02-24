@@ -3,6 +3,8 @@ package pageObjects.taskspage;
 import org.openqa.selenium.By;
 import testbase.TestBase;
 
+import java.util.HashMap;
+
 public class AddTaskTimeSection extends TestBase {
 
     public By timeEstimatedTime = By.name("tasks[estimated_time]");
@@ -13,11 +15,11 @@ public class AddTaskTimeSection extends TestBase {
     public By timeAttachmentsCancel = By.cssSelector(".modal-footer.ui-draggable-handle > .btn.btn-default");
     public By attachmentsSection = By.xpath("//a[@href='#tab_attachments']");
 
-    public void doFillTimeSectionDetails(){
-        typeElement(generateElement(timeEstimatedTime), "5", "timeEstimatedTime");
-        typeElement(generateElement(timeStartDate), "2024-02-22", "timeEstimatedTime");
-        typeElement(generateElement(timeDueDate), "2024-02-27", "timeDueDate");
-        dropDownHandler.selectByValue(generateElement(timeProgress), "5");
+    public void doFillTimeSectionDetails(HashMap<String, String> testData){
+        typeElement(generateElement(timeEstimatedTime), testData.get("TaskEstimatedTime"), "timeEstimatedTime");
+        typeElement(generateElement(timeStartDate), testData.get("TaskStartDate"), "timeEstimatedTime");
+        typeElement(generateElement(timeDueDate), testData.get("TaskEndDate"), "timeDueDate");
+        dropDownHandler.selectByValue(generateElement(timeProgress), testData.get("TaskCurrentProgress"));
     }
 
     public void navigateToAttachmentSection() {

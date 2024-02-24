@@ -27,7 +27,7 @@ public class FileReader {
     }
 
     private static void loadPropertyFile(){
-        try(FileInputStream fileInputStream = new FileInputStream(System.getProperty("user.dir")+"/src/main/resources/configuration.properties")){
+        try(FileInputStream fileInputStream = new FileInputStream(System.getProperty("user.dir")+"/src/test/resources/config/configuration.properties")){
             properties.load(fileInputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
