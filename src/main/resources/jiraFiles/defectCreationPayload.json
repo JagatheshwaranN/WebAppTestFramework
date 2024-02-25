@@ -1,0 +1,58 @@
+{
+  "fields": {
+    "project": {
+      "key": "QDPM"
+    },
+    "summary": "",
+    "description": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "text": "",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    "issuetype": {
+      "name": ""
+    },
+    "components": [
+      {
+        "id": "10000"
+      }
+    ],
+    "priority": {
+      "id": "5"
+    },
+    "labels": [
+      ""
+    ],
+    "parent": {
+      "key": ""
+    },
+    "environment": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "text": "",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    "assignee": {
+      "id": ""
+    }
+  }
+}
