@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
@@ -21,6 +22,8 @@ import org.testng.Reporter;
 import report.ExtentReport;
 import testbase.DriverFactory;
 import testbase.ExtentFactory;
+import utils.FileReader;
+import utils.JiraDefectCreation;
 
 
 public class Report implements ITestListener {
@@ -28,6 +31,8 @@ public class Report implements ITestListener {
     static ExtentReports extentReports;
     ExtentTest extentTest;
     private String snapshotCategory = null;
+
+    JiraDefectCreation jiraDefectCreation = new JiraDefectCreation();
 
     @Override
     public void onFinish(ITestContext context) {
@@ -66,10 +71,11 @@ public class Report implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
         snapshotCategory = "failure/";
+        String screenToAttach = null;
         try {
             if (!result.isSuccess()) {
                 // ReportNG Report Code - NOT WORKING
-                String screenToAttach = captureSnapShot(snapshotCategory);
+                screenToAttach = captureSnapShot(snapshotCategory);
                 Reporter.log("<br>");
                 Reporter.log("The " + result.getMethod().getMethodName() + " Test Failed..!!" + "\n"
                         + result.getThrowable());
@@ -77,16 +83,26 @@ public class Report implements ITestListener {
                 Reporter.log("<a target='_blank' href='" + screenToAttach + "'><img src= '" + screenToAttach
                         + "' height='100' width='100' /></a>");
                 System.out.println("The test failure screenshot is captured to attach in report and testNG report");
-                ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL,"The " + result.getMethod().getMethodName() + " Test Failed..!!" + "\n"
+                ExtentFactory.getInstance().getExtentTestThreadLocal().log(Status.FAIL, "The " + result.getMethod().getMethodName() + " Test Failed..!!" + "\n"
                         + result.getThrowable());
                 //ExtentFactory.getInstance().getDriverThreadLocal().log(Status.FAIL, result.getThrowable());
                 ExtentFactory.getInstance().getExtentTestThreadLocal().addScreenCaptureFromPath(screenToAttach);
                 ExtentFactory.getInstance().closeExtentTest();
+
             }
         } catch (Exception ex) {
             System.out.println("Exception occurred while capture screenshot on test failure" + "\n" + ex);
             Assert.fail();
         }
+        @SuppressWarnings("unchecked")
+        HashMap<String, String> testData = (HashMap<String, String>) result.getTestContext().getAttribute("testDataMap");
+        String summary = "Automation Test Failed - " + result.getMethod().getMethodName();
+        String exception = String.valueOf(result.getThrowable());
+        String description = "***** Test Data Used: ***** \n" + testData + "\n ***** Exception: *****\n" + exception;
+        String defectId = jiraDefectCreation.createDefectThruAPI(summary, description, "Bug", "AutomationDefect", "QDPM-1", "UAT", FileReader.getDataFromPropFile("jiraId"));
+        System.out.println("Defect Created: " + defectId);
+        assert screenToAttach != null;
+        jiraDefectCreation.addAttachmentToDefect(defectId, new File(screenToAttach));
     }
 
     @Override

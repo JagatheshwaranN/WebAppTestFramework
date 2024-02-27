@@ -15,14 +15,14 @@ import static io.restassured.RestAssured.given;
 
 public class JiraDefectCreation {
 
-    public static void main(String[] args) {
-        String defectId = JiraDefectCreation.createDefectThruAPI("File Attachment Not Working", "File attachment option is not working and keep loading.",
-                "Bug", "AutomationDefect", "QDPM-1", "UAT", FileReader.getDataFromPropFile("jiraId"));
-        System.out.println("Defect Created: " + defectId);
-        JiraDefectCreation.addAttachmentToDefect(defectId, new File(System.getProperty("user.dir")+"/reports/failure/24_02_2024_04_43_58.png"));
-    }
+//    public static void main(String[] args) {
+//        String defectId = JiraDefectCreation.createDefectThruAPI("File Attachment Not Working", "File attachment option is not working and keep loading.",
+//                "Bug", "AutomationDefect", "QDPM-1", "UAT", FileReader.getDataFromPropFile("jiraId"));
+//        System.out.println("Defect Created: " + defectId);
+//        JiraDefectCreation.addAttachmentToDefect(defectId, new File(System.getProperty("user.dir")+"/reports/failure/24_02_2024_04_43_58.png"));
+//    }
 
-    public static String createDefectThruAPI(String summary, String description, String issueType, String label, String parent, String environment, String assignee){
+    public String createDefectThruAPI(String summary, String description, String issueType, String label, String parent, String environment, String assignee){
 
         JSONObject defectPayload;
 
@@ -77,7 +77,7 @@ public class JiraDefectCreation {
     }
 
 
-    public static void addAttachmentToDefect(String defectId, File filePath){
+    public void addAttachmentToDefect(String defectId, File filePath){
 
         byte[] basicAuth = Base64.getEncoder().encode((FileReader.getDataFromPropFile("jiraUserName")+":"+FileReader.getDataFromPropFile("jiraAccessToken")).getBytes());
         String basicAuthString = new String(basicAuth);

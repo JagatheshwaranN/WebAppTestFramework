@@ -1,6 +1,7 @@
 package testcases;
 
 import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pageObjects.DashboardPage;
@@ -24,29 +25,30 @@ public class TestCaseDemo extends TestBase {
     ExcelReader excelReader = new ExcelReader("AddTask");
 
     @Test(dataProvider = "taskCreationData")
-    public void taskCreation(Object dataSet) throws InterruptedException {
+    public void taskCreation(Object dataSet, ITestContext context) throws InterruptedException {
         @SuppressWarnings("unchecked")
         HashMap<String, String> testData = (HashMap<String, String>) dataSet;
+        context.setAttribute("testDataMap", testData);
         //Thread.sleep(10000);
         ExtentFactory.getInstance().getExtentTestThreadLocal().info("Test Data for current execution is:" +testData);
         CustomLogger.startTestCase(new Throwable().getStackTrace()[0].getMethodName());
         CustomLogger.info("TestCase 1 Execution");
         loginPage.doLogin(testData.get("UserName"), testData.get("Password"));
         dashboardPage.verifyDashboardDetails();
-//        dashboardPage.clickOnSideMenu("Tasks");
-//        Thread.sleep(2000);
-//        dashboardPage.clickOnSideMenuBarSubMenu("Tasks","Add Task");
-//        tasksPage.performAddTask(testData);
-//        String taskName = testData.get("TaskName");
-//        String rawQuery = FileReader.getDataFromPropFile("query");
-//        String convertedQuery = rawQuery.replace("?", taskName);
-//        HashMap<String, String> dataFromDB = dataBaseReader.getDBResultAsMap(convertedQuery);
-//        Assert.assertEquals(dataFromDB.get("name"), taskName);
+        dashboardPage.clickOnSideMenu("Tasks");
+        Thread.sleep(2000);
+        dashboardPage.clickOnSideMenuBarSubMenu("Tasks","Add Task");
+        tasksPage.performAddTask(testData);
+        String taskName = testData.get("TaskName");
+        String rawQuery = FileReader.getDataFromPropFile("query");
+        String convertedQuery = rawQuery.replace("?", taskName);
+        HashMap<String, String> dataFromDB = dataBaseReader.getDBResultAsMap(convertedQuery);
+        Assert.assertEquals(dataFromDB.get("name"), "taskName");
         Thread.sleep(5000);
     }
 
     @Test(enabled = false)
-    public void testCase2() throws InterruptedException {
+    public void testCase2() {
         //Thread.sleep(10000);
         System.out.println("TestCase 2");
         CustomLogger.startTestCase(new Throwable().getStackTrace()[0].getMethodName());
