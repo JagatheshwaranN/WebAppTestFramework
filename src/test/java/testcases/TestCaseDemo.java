@@ -35,6 +35,7 @@ public class TestCaseDemo extends TestBase {
         CustomLogger.info("TestCase 1 Execution");
         loginPage.doLogin(testData.get("UserName"), testData.get("Password"));
         dashboardPage.verifyDashboardDetails();
+        Assert.fail("Failing for Demo Purpose");
         dashboardPage.clickOnSideMenu("Tasks");
         Thread.sleep(2000);
         dashboardPage.clickOnSideMenuBarSubMenu("Tasks","Add Task");
@@ -53,8 +54,7 @@ public class TestCaseDemo extends TestBase {
         System.out.println("TestCase 2");
         CustomLogger.startTestCase(new Throwable().getStackTrace()[0].getMethodName());
         CustomLogger.info("TestCase 2 Execution");
-        loginPage.doLogin("john@gmail.com", "admin1");
-        //Assert.fail("Failing the TestCase");
+        loginPage.doLogin("john@gmail.com", "admin");
     }
 
     @DataProvider(name="taskCreationData")

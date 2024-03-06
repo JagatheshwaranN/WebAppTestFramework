@@ -1,4 +1,4 @@
-package listener;
+package listener.report;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
@@ -94,15 +94,17 @@ public class Report implements ITestListener {
             System.out.println("Exception occurred while capture screenshot on test failure" + "\n" + ex);
             Assert.fail();
         }
-        @SuppressWarnings("unchecked")
-        HashMap<String, String> testData = (HashMap<String, String>) result.getTestContext().getAttribute("testDataMap");
-        String summary = "Automation Test Failed - " + result.getMethod().getMethodName();
-        String exception = String.valueOf(result.getThrowable());
-        String description = "***** Test Data Used: ***** \n" + testData + "\n ***** Exception: *****\n" + exception;
-        String defectId = jiraDefectCreation.createDefectThruAPI(summary, description, "Bug", "AutomationDefect", "QDPM-1", "UAT", FileReader.getDataFromPropFile("jiraId"));
-        System.out.println("Defect Created: " + defectId);
-        assert screenToAttach != null;
-        jiraDefectCreation.addAttachmentToDefect(defectId, new File(screenToAttach));
+        if(FileReader.getDataFromPropFile("defectCreation").equalsIgnoreCase("ON")) {
+            @SuppressWarnings("unchecked")
+            HashMap<String, String> testData = (HashMap<String, String>) result.getTestContext().getAttribute("testDataMap");
+            String summary = "Automation Test Failed - " + result.getMethod().getMethodName();
+            String exception = String.valueOf(result.getThrowable());
+            String description = "***** Test Data Used: ***** \n" + testData + "\n ***** Exception: *****\n" + exception;
+            String defectId = jiraDefectCreation.createDefectThruAPI(summary, description, "Bug", "AutomationDefect", "QDPM-1", "UAT", FileReader.getDataFromPropFile("jiraId"));
+            System.out.println("Defect Created: " + defectId);
+            assert screenToAttach != null;
+            jiraDefectCreation.addAttachmentToDefect(defectId, new File(screenToAttach));
+        }
     }
 
     @Override
