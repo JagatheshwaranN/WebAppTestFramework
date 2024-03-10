@@ -25,7 +25,7 @@ public class ExcelReader {
 
     public HashMap<String, String> getTestDataFromExcelAsMap(int rowNum) {
         HashMap<String, String> excelTestDataMap = new HashMap<>();
-        for(int i = 0; i < sheet.getRow(0).getLastCellNum(); i++){
+        for(int i = 0; i < getColCount(); i++){
             String value;
             Cell cell = sheet.getRow(rowNum).getCell(i);
             if(cell != null){

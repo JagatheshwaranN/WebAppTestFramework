@@ -88,7 +88,6 @@ public class Report implements ITestListener {
                 //ExtentFactory.getInstance().getDriverThreadLocal().log(Status.FAIL, result.getThrowable());
                 ExtentFactory.getInstance().getExtentTestThreadLocal().addScreenCaptureFromPath(screenToAttach);
                 ExtentFactory.getInstance().closeExtentTest();
-
             }
         } catch (Exception ex) {
             System.out.println("Exception occurred while capture screenshot on test failure" + "\n" + ex);
